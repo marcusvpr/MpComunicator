@@ -3,20 +3,28 @@ package com.mpxds.mpComunicator.controller;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.mpxds.mpComunicator.model.enums.MpContato;
 import com.mpxds.mpComunicator.model.enums.MpTipoContato;
 import com.mpxds.mpComunicator.util.jsf.MpFacesUtil;
+import com.mpxds.mpComunicator.util.mail.MpMailer;
+import com.outjected.email.api.MailMessage;
+import com.outjected.email.impl.templating.velocity.VelocityTemplate;
 
 @Named
 @ViewScoped
 public class MpEnviaMensagemBean implements Serializable {
 	//
 	private static final long serialVersionUID = 1L;
-
+	
+	@Inject
+	private MpMailer mpMailer;
+	
 	private MpContato mpContato;
 	private List<MpContato> mpContatoList;
 	
@@ -48,8 +56,64 @@ public class MpEnviaMensagemBean implements Serializable {
 	}
 	
 	public void enviar() {
-		//			
-		MpFacesUtil.addInfoMessage("Mensagem... enviada com sucesso!");
+		//
+		String msg = "";
+		//
+		if (null == this.mpContato) msg = msg + "\n(Informar Contato)";
+		if (null == this.mensagem || this.mensagem.isEmpty()) msg = msg + "\n(Informar Mensagem)";
+		if (null == this.mpTipoContato) msg = msg + "\n(Informar Tipo)";
+		//
+		if (!msg.isEmpty()) {
+			MpFacesUtil.addInfoMessage(msg);
+			return;
+		}		
+		//
+		if (mpTipoContato.equals(MpTipoContato.EMAIL))
+			this.enviarEMAIL();
+		else
+			if (mpTipoContato.equals(MpTipoContato.SMS))
+				this.enviarSMS();
+			else
+				if (mpTipoContato.equals(MpTipoContato.PUSH))
+					this.enviarPUSH();
+				else
+					if (mpTipoContato.equals(MpTipoContato.TELEGRAM))
+						this.enviarTELEGRAM();
+					else
+						if (mpTipoContato.equals(MpTipoContato.ANDROID))
+							this.enviarANDROID();
+		//
+		MpFacesUtil.addInfoMessage("Mensagem ( " + mpTipoContato.getNome() +
+																	" )... enviada com sucesso!");
+	}
+	
+	public void enviarEMAIL() {
+		//
+		MailMessage message = mpMailer.novaMensagem();
+		
+		message.to(this.mpContato.getEmail())
+				.subject("MPXDS MpComunicator")
+				.bodyHtml(new VelocityTemplate(getClass().getResourceAsStream(
+														"/emails/mpComunicator.template")))
+				.put("mpContato", this.mpContato)
+				.put("mensagem", this.mensagem)
+				.put("locale", new Locale("pt", "BR"))
+				.send();
+	}
+	
+	public void enviarSMS() {
+		//
+	}
+	
+	public void enviarPUSH() {
+		//
+	}
+	
+	public void enviarTELEGRAM() {
+		//
+	}
+	
+	public void enviarANDROID() {
 		//
 	}
 	

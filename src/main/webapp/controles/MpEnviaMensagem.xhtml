@@ -43,12 +43,18 @@
 					<f:selectItems value="#{mpEnviaMensagemBean.mpTipoContatoList}"
 						var="mpTipoContato" itemValue="#{mpTipoContato}"
 						itemLabel="#{mpTipoContato.nome}" />
+					<f:ajax execute="@all" render="@all" />
 				</p:selectOneMenu>
+
+	    		<p:outputLabel value="Ação" />
+	    		<p:graphicImage library="images" width="240" height="150"
+	    				rendered="#{mpEnviaMensagemBean.mpTipoContato.imagem == null ? false : true}" 
+	    				name="#{mpEnviaMensagemBean.mpTipoContato.imagem}"/>
 
 			</p:panelGrid>
 			
 	    	<p:toolbar style="margin-top: 20px">
-	    		<p:toolbarGroup align="right">
+	    		<p:toolbarGroup align="center">
 	    			<p:commandButton value="Enviar Mensagem" id="botaoEnviar"
 	    				action="#{mpEnviaMensagemBean.enviar}" />
 	    		</p:toolbarGroup>

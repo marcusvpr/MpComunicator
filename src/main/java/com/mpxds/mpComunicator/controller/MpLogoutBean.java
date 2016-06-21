@@ -30,6 +30,9 @@ public class MpLogoutBean implements Serializable {
 		String url = extContext.encodeActionURL(extContext.getRequestContextPath() +
 																	"/MpLogin.xhtml");
 //																	"/j_spring_security_logout");
+		//
+		System.out.println("MpLogout.inicializar() ( url = " + url);
+		//
 		try {
 			extContext.redirect(url);
 			//
