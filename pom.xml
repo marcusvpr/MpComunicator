@@ -1,0 +1,268 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.mpxds</groupId>
+    <artifactId>MpComunicator</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <packaging>war</packaging>
+	<name>Projeto MPXDS Comunicator</name>
+	<description>Projeto MPXDS Comunicator JSF Primefaces</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+		<hibernate-validator.version>5.2.3.Final</hibernate-validator.version>
+		<hibernate.version>5.1.0.Final</hibernate.version>
+		<weld-servlet.version>1.1.10.Final</weld-servlet.version>
+		<primefaces.version>5.3</primefaces.version>
+		<javax.faces.version>2.2.9</javax.faces.version>
+		<omnifaces.version>2.2</omnifaces.version>
+		<log4j.version>1.2.17</log4j.version>
+		<commons-logging.version>1.1.3</commons-logging.version>
+		<commons-lang3.version>3.1</commons-lang3.version>
+		<simple-email.version>0.2.1</simple-email.version>
+		<javax.mail.version>1.4.7</javax.mail.version>
+		<velocity.version>1.7</velocity.version>
+		<velocity-tools.version>1.1</velocity-tools.version>
+		<spring-security.version>3.2.5.RELEASE</spring-security.version>
+		<jasperreports.version>5.1.2</jasperreports.version>
+		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
+
+		<hsqldb.version>2.3.3</hsqldb.version>
+		
+		<gson.version>1.4</gson.version>
+		<json.version>20160212</json.version>
+		<jtelebot.version>0.1.0</jtelebot.version>
+		
+    	<gcm-server.version>1.0.2</gcm-server.version>
+        
+    </properties>
+
+    <dependencies>
+		<!-- Implementacao do Bean Validation -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator.version}</version>
+			<scope>compile</scope>
+		</dependency>
+    
+		<!-- Núcleo do Hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+            </exclusions>
+       	</dependency>
+		
+		<!-- Implementação de EntityManager da JPA -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Driver JDBC do MySQL
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.25</version>
+			<scope>compile</scope>
+		</dependency -->
+		
+		<!-- Driver JDBC do HSQLDB -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${hsqldb.version}</version>
+			<scope>compile</scope>
+		</dependency>
+    
+        <!-- Weld (implementação do CDI) -->
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet</artifactId>
+    		<version>${weld-servlet.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    
+        <!-- PrimeFaces (biblioteca de componentes) -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+    		<version>${primefaces.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <!-- Mojarra (implementacao do JSF) -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.faces</artifactId>
+    		<version>${javax.faces.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        
+		<!-- OmniFaces (utilitarios para JSF) -->
+		<dependency>
+		    <groupId>org.omnifaces</groupId>
+		    <artifactId>omnifaces</artifactId>
+    		<version>${omnifaces.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+        
+		<!-- Log4J -->    	
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+    		<version>${log4j.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Commons Logging (abstrai a implementação de logging) -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+    		<version>${commons-logging.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Commons Lang (utilidades) -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+    		<version>${commons-lang3.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Abstração para envio de e-mails -->		
+		<dependency>
+			<groupId>com.outjected</groupId>
+			<artifactId>simple-email</artifactId>
+    		<version>${simple-email.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Requerido para envio de e-mails -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+    		<version>${javax.mail.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Usamos para templates de emails -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+    		<version>${velocity.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Usamos para formatar números em templates -->
+		<dependency>
+			<groupId>velocity-tools</groupId>
+			<artifactId>velocity-tools-generic</artifactId>
+    		<version>${velocity-tools.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Spring Security (autenticação e autorização) -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+    		<version>${spring-security.version}</version>
+		</dependency> 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+    		<version>${spring-security.version}</version>
+		</dependency> 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+    		<version>${spring-security.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+    		<version>${jasperreports.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- API de Servlet -->
+		<dependency>
+	        <groupId>javax.servlet</groupId>
+	        <artifactId>javax.servlet-api</artifactId>
+    		<version>${javax.servlet-api.version}</version>
+	        <scope>provided</scope>
+		</dependency>
+		
+		<!-- JSON / GSON  -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+    		<version>${gson.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- JSON / Telegram Use -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${json.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- Telegram BOT -->
+		<dependency>
+			<groupId>io.github.nixtabyte.telegram</groupId>
+			<artifactId>jtelebot-core</artifactId>
+			<version>${jtelebot.version}</version>
+		    <scope>compile</scope>
+		</dependency>		
+		
+		<!-- Push Notification Server Google (Android, IOS) -->
+		<dependency>
+   			<groupId>com.ganyo</groupId>
+   			<artifactId>gcm-server</artifactId>
+    		<version>${gcm-server.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+    </dependencies>
+
+    <build>
+        <finalName>MpComunicator</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>prime-repo</id>
+            <name>PrimeFaces Maven Repository</name>
+            <url>http://repository.primefaces.org</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+</project>
