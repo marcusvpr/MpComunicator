@@ -8,7 +8,7 @@
 
 	<h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title><ui:insert name="titulo">Sistema Comunicator TABAJARA</ui:insert></title>
+        <title><ui:insert name="titulo">Sistema MpComunicator TABAJARA</ui:insert></title>
         <h:outputStylesheet library="css" name="sistema.css" />
         <h:outputScript library="js" name="jquery.maskMoney.js"/>
 	</h:head>
@@ -28,7 +28,7 @@
 				<h:link outcome="/MpHome">
 					<h:graphicImage library="images" name="mpxds_logo5_menor.png" />
 				</h:link>
-    			<p:outputLabel value=" Sistema Comunicator TABAJARA" 
+    			<p:outputLabel value=" Sistema MpComunicator TABAJARA" 
 										style="color:blank; font-weight:bold; font-size:12px;" /> 
 			</div>
 			
@@ -41,7 +41,9 @@
 					<p:menubar styleClass="menu-sistema">
 						<p:submenu label="Mensagem">
 							<p:menuitem value="Enviar Mensagem" 
-														url="/controles/MpEnviaMensagem.xhtml" />
+												url="/controles/MpEnviaMensagem.xhtml" />
+							<p:menuitem value="Pesquisar Mensagem" 
+												url="/controles/MpPesquisaMensagemMovimentos.xhtml" />
 						</p:submenu>
 						<p:submenu label="Cadastros">
 							<p:menuitem value="Usuários" />
@@ -63,7 +65,7 @@
 		
 		<footer>
 			MPXDS - Desenvolvimento Sistemas - 
-			<a href="http://www.mpxds.com" target="_blank">www.mpxds.com</a> - Versão: 1.0.0
+			<a href="http://www.mpxds.com" target="_blank">www.mpxds.com</a> - Versão: 1.0.3
 		</footer>
 		
 		<script>

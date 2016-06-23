@@ -36,32 +36,19 @@ public class MpUsuarioFilter implements Serializable {
 
 	// -------
 	
-	public int getPrimeiroRegistro() {
-		return primeiroRegistro;
-	}
-	public void setPrimeiroRegistro(int primeiroRegistro) {
-		this.primeiroRegistro = primeiroRegistro;
-	}
+	public int getPrimeiroRegistro() { return primeiroRegistro; }
+	public void setPrimeiroRegistro(int primeiroRegistro) { 
+														this.primeiroRegistro = primeiroRegistro; }
 
-	public int getQuantidadeRegistros() {
-		return quantidadeRegistros;
-	}
+	public int getQuantidadeRegistros() { return quantidadeRegistros; }
 	public void setQuantidadeRegistros(int quantidadeRegistros) {
-		this.quantidadeRegistros = quantidadeRegistros;
-	}
+												this.quantidadeRegistros = quantidadeRegistros;	}
 
-	public String getPropriedadeOrdenacao() {
-		return propriedadeOrdenacao;
-	}
+	public String getPropriedadeOrdenacao() { return propriedadeOrdenacao; }
 	public void setPropriedadeOrdenacao(String propriedadeOrdenacao) {
-		this.propriedadeOrdenacao = propriedadeOrdenacao;
-	}
+												this.propriedadeOrdenacao = propriedadeOrdenacao; }
 
-	public boolean isAscendente() {
-		return ascendente;
-	}
-	public void setAscendente(boolean ascendente) {
-		this.ascendente = ascendente;
-	}
+	public boolean isAscendente() { return ascendente; }
+	public void setAscendente(boolean ascendente) { this.ascendente = ascendente; }
 
 }

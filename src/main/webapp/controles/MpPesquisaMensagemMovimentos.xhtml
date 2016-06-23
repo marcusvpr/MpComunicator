@@ -1,0 +1,80 @@
+<ui:composition template="/WEB-INF/template/MpLayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa Mensagens Enviadas</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form>
+	    	<h1>Pesquisa Mensagens Enviadas</h1>
+	    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton value="Pesquisar" update="@form" />
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup align="right">
+	    			<p:button value="Nova Mensagem" outcome="/controles/MpEnviaMensagem" />
+	    		</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+        	<p:panel header="Filtra" toggleable="true" toggleSpeed="500" closeSpeed="500"
+        																			 collapsed="true">
+	    		<p:panelGrid columns="6" id="painel" style="width: 100%; margin-top: 20px"
+	    				columnClasses="rotulo, campo">
+	    			<p:outputLabel value="Data de criação" />
+	    			<h:panelGroup>
+	    				<p:calendar size="10" pattern="dd/MM/yyyy" 
+	    					value="#{mpPesquisaMensagemMovimentosBean.filtro.dataCriacaoDe}" />
+	    					a
+	    				<p:calendar size="10" pattern="dd/MM/yyyy"
+	    					value="#{mpPesquisaMensagemMovimentosBean.filtro.dataCriacaoAte}" />
+	    			</h:panelGroup>
+	    		
+	    			<p:outputLabel value="Usuário" />
+	    			<p:inputText size="20" value="#{mpPesquisaMensagemMovimentosBean.filtro.usuario}" />
+	    		
+	    			<p:outputLabel value="Contato" />
+	    			<p:inputText size="20" value="#{mpPesquisaMensagemMovimentosBean.filtro.contato}" />	    		
+	    		
+	    			<p:outputLabel value="Mensagem" />
+	    			<p:inputText size="20" value="#{mpPesquisaMensagemMovimentosBean.filtro.mensagem}" />
+	    		
+	    			<p:outputLabel value="Tipo" />
+	    			<p:inputText size="20" value="#{mpPesquisaMensagemMovimentosBean.filtro.tipoContato}" />	    		
+	    		</p:panelGrid>
+        	</p:panel>
+	    	
+	    	<p:dataTable id="mensagemsTable" value="#{mpPesquisaMensagemMovimentosBean.model}"
+	    			var="mpMensagemMovimento" paginatorPosition="bottom" lazy="true"
+		    		rows="20" paginator="true" paginatorAlwaysVisible="false"
+		    		style="margin-top: 20px" emptyMessage="Nenhuma Mensagem encontrada.">
+		    	
+	    		<p:column headerText="Data" style="text-align: center; width: 150px">
+	    			<h:outputText value="#{mpMensagemMovimento.dataMovimento}">
+	    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" 
+	    														timeZone="America/Sao_Paulo" />
+	    			</h:outputText>
+	    		</p:column>
+	    		<p:column headerText="Usuário">
+	    			<h:outputText value="#{mpMensagemMovimento.mpUsuario.nome}"/>
+	    		</p:column>
+	    		<p:column headerText="Contato">
+	    			<h:outputText value="#{mpMensagemMovimento.mpContato.nome}"/>
+	    		</p:column>
+	    		<p:column headerText="Mensagem">
+	    			<h:outputText value="#{mpMensagemMovimento.mensagem}"/>
+	    		</p:column>
+	    		<p:column headerText="Tipo">
+	    			<h:outputText value="#{mpMensagemMovimento.mpTipoContato.nome}"/>
+	    		</p:column>
+	    		<p:column headerText="Status" style="width: 100px">
+	    			<h:outputText value="#{mpMensagemMovimento.mpStatusMensagem.descricao}"/>
+	    		</p:column>
+	    	</p:dataTable>
+	    	
+    	</h:form>
+    </ui:define>
+</ui:composition>

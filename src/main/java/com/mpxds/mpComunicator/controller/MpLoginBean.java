@@ -26,6 +26,7 @@ import com.mpxds.mpComunicator.service.MpCadastroGrupoService;
 import com.mpxds.mpComunicator.service.MpCadastroUsuarioService;
 import com.mpxds.mpComunicator.util.jsf.MpFacesUtil;
 import com.mpxds.mpComunicator.util.mail.MpMailer;
+import com.mpxds.mpComunicator.security.MpSeguranca;
 import com.mpxds.mpComunicator.model.MpGrupo;
 import com.mpxds.mpComunicator.model.enums.MpMenuGlobalGrupo;
 import com.mpxds.mpComunicator.model.enums.MpMenuGlobalUsuario;
@@ -52,6 +53,9 @@ public class MpLoginBean implements Serializable {
 	
 	@Inject
 	private MpCadastroGrupoService mpCadastroGrupoService;
+	
+	@Inject
+	private MpSeguranca mpSeguranca;
 		
 	@Inject
 	private MpMailer mpMailer;
@@ -101,7 +105,8 @@ public class MpLoginBean implements Serializable {
 	public void preRender() {
 		//
 		// --- logs debug ---
-		if (logger.isDebugEnabled()) logger.debug("MpLoginBean.preRender()");
+		if (logger.isDebugEnabled()) logger.debug("MpLoginBean.preRender() ( Ip= " + 
+																this.mpSeguranca.getNumeroIP());
 
 		// Trata Confirmação Registro Usuário ...
 		if (null == this.idI) this.idI = "null";
@@ -292,6 +297,7 @@ public class MpLoginBean implements Serializable {
     			mpUsuario.setNome(mpMenuGlobalUsuario.getNome());
     			mpUsuario.setEmail(mpMenuGlobalUsuario.getEmail());
     			mpUsuario.setSenha(mpMenuGlobalUsuario.getSenha());
+    			mpUsuario.setImagem(mpMenuGlobalUsuario.getImagem());
     			mpUsuario.setMpStatus(MpStatus.valueOf(mpMenuGlobalUsuario.getMpStatus()));
     			
     			if (mpMenuGlobalUsuario.getLogin().toLowerCase().equals("master"))

@@ -34,6 +34,7 @@ public class MpUsuario extends MpBaseEntity {
 	private String email;
 	private String senha;
 	private String senhaLog = "";
+	private String imagem;
 	private Date dataNascimento;
 	private String observacao;
 	
@@ -52,7 +53,7 @@ public class MpUsuario extends MpBaseEntity {
 	public String getLogin() { return login; }
 	public void setLogin(String login) { this.login = login; }
 	
-	@Column(nullable = true, length = 50)
+	@Column(nullable = true, length = 50, name = "login_grupo")
 	public String getLoginGrupo() { return loginGrupo; }
 	public void setLoginGrupo(String loginGrupo) { this.loginGrupo = loginGrupo; }
 	
@@ -75,6 +76,10 @@ public class MpUsuario extends MpBaseEntity {
 	@Column(nullable = true, length = 200, name = "senha_log")
 	public String getSenhaLog() { return senhaLog; }
 	public void setSenhaLog(String senhaLog) { this.senhaLog = senhaLog; }
+
+	@Column(nullable = true, length = 50)
+	public String getImagem() { return imagem; }
+	public void setImagem(String imagem) { this.imagem = imagem; }
 
 	@Past(message="Data futuro inválida!")
 	@Temporal(TemporalType.DATE)

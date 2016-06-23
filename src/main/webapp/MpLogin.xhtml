@@ -39,30 +39,27 @@ function tratarEnvioSenha(args) {
 				<p:growl id="messages" showDetail="false" sticky="true" autoUpdate="true" life="300" />
     			
 				<p:panelGrid columns="2" layout="grid" style="margin-top:10px"
-					styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-9">
+					styleClass="panelgrid-noborder" columnClasses="ui-grid-col-1, ui-grid-col-11">
 
-					<p:separator style="width:1px; height:1px" />
-					<p:separator style="width:1px; height:1px" />
+					<p:spacer width="1" />
+					<p:spacer width="1" />
 
-    				<p:outputLabel value="Login/Email" for="j_username"
+    				<p:outputLabel value="" for="j_username"
 										style="color:#808080; font-weight:bold; font-size:12px;" /> 
-    				<p:inputText id="j_username" value="#{mpLoginBean.loginEmail}" />
+    				<p:inputText id="j_username" placeholder="Informe seu Login/Email" value="#{mpLoginBean.loginEmail}" />
     				
-    				<p:outputLabel value="Senha" for="j_password"
+    				<p:outputLabel value="" for="j_password"
 										style="color:#808080; font-weight:bold; font-size:12px;" /> 
     				<h:panelGroup>
-    					<p:password id="j_password" />
+    					<p:password placeholder="Informe sua Senha" id="j_password" />
     					<h:panelGroup>
 							<p:commandButton value="Esqueci minha Senha" 
 										style="color:#808080; font-weight:bold; font-size:12px;" 
 					 					onclick="PF('senhaDialog').show();" />
     					</h:panelGroup>
     				</h:panelGroup>
-    				
-    				<h:panelGroup />
-    				<h:panelGroup />
-    				
-    				<h:panelGroup />
+    				    				
+					<p:spacer width="1" />
     				<h:panelGroup>
     					<p:spacer width="3" />  					
 						<p:commandButton value="Login" ajax="false" icon="ui-icon-key"
@@ -71,19 +68,17 @@ function tratarEnvioSenha(args) {
 
     				</h:panelGroup>
 
-     				<h:panelGroup />
-    				<h:panelGroup />
-
-     				<h:panelGroup />
+					<p:spacer width="1" />
      				<h:panelGroup>
     					<p:spacer width="3" />  					
 						<p:outputLabel value="Não possui um usuário?"
    					 					style="color:#808080; font-weight:bold; font-size:12px;" />
      				</h:panelGroup>
-    				<h:panelGroup />
+					<p:spacer width="1" />
 					<p:commandButton value="Cadastre-se agora"
 					 						style="color:#808080; font-weight:bold; font-size:12px;" 
 					 						onclick="PF('registroDialog').show();" />
+					<p:spacer width="1" />
     			</p:panelGrid>
 
     		</h:form>		
@@ -94,13 +89,13 @@ function tratarEnvioSenha(args) {
 			<p:button target="_blank" href="https://mpxdsx.freshdesk.com/support/home" 
 											style="color:black; font-weight:bold; font-size:12px;"
 																			value="Fale Conosco !" />
-			<p:separator style="width:1px; height:1px" />
-			<p:separator style="width:1px; height:1px" />
-			<p:separator style="width:1px; height:1px" />
+			<p:spacer width="1" />
+			<p:spacer width="1" />
+			<p:spacer width="1" />
     	</div>
 
 		<p:dialog header="Cadastre-se" widgetVar="registroDialog" modal="true"
-			resizable="false" responsive="true">
+																resizable="false" responsive="true">
 			<h:form>
 				<p:messages autoUpdate="false" />
 

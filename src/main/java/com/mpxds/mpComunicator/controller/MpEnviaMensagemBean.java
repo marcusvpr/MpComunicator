@@ -2,6 +2,7 @@ package com.mpxds.mpComunicator.controller;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -9,8 +10,12 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.mpxds.mpComunicator.model.MpMensagemMovimento;
 import com.mpxds.mpComunicator.model.enums.MpContato;
+import com.mpxds.mpComunicator.model.enums.MpStatusMensagem;
 import com.mpxds.mpComunicator.model.enums.MpTipoContato;
+import com.mpxds.mpComunicator.security.MpSeguranca;
+import com.mpxds.mpComunicator.service.MpCadastroMensagemMovimentoService;
 import com.mpxds.mpComunicator.util.jsf.MpFacesUtil;
 import com.mpxds.mpComunicator.util.mail.MpMailer;
 import com.outjected.email.api.MailMessage;
@@ -21,6 +26,12 @@ import com.outjected.email.impl.templating.velocity.VelocityTemplate;
 public class MpEnviaMensagemBean implements Serializable {
 	//
 	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private MpCadastroMensagemMovimentoService mpCadastroMensagemMovimentoService;
+	
+	@Inject
+	private MpSeguranca mpSeguranca;
 	
 	@Inject
 	private MpMailer mpMailer;
@@ -83,6 +94,8 @@ public class MpEnviaMensagemBean implements Serializable {
 						if (mpTipoContato.equals(MpTipoContato.ANDROID))
 							this.enviarANDROID();
 		//
+		this.gravaMensagemMovimento();
+		//
 		MpFacesUtil.addInfoMessage("Mensagem ( " + mpTipoContato.getNome() +
 																	" )... enviada com sucesso!");
 	}
@@ -95,7 +108,7 @@ public class MpEnviaMensagemBean implements Serializable {
 				.subject("MPXDS MpComunicator")
 				.bodyHtml(new VelocityTemplate(getClass().getResourceAsStream(
 														"/emails/mpComunicator.template")))
-				.put("mpContato", this.mpContato)
+				.put("mpUsuario", this.mpSeguranca.getMpUsuarioLogado().getMpUsuario().getNome())
 				.put("mensagem", this.mensagem)
 				.put("locale", new Locale("pt", "BR"))
 				.send();
@@ -115,6 +128,20 @@ public class MpEnviaMensagemBean implements Serializable {
 	
 	public void enviarANDROID() {
 		//
+	}
+	
+	public void gravaMensagemMovimento() {
+		//
+		MpMensagemMovimento mpMensagemMovimento = new MpMensagemMovimento();
+		
+		mpMensagemMovimento.setMpUsuario(mpSeguranca.getMpUsuarioLogado().getMpUsuario());
+		mpMensagemMovimento.setDataMovimento(new Date());
+		mpMensagemMovimento.setMpContato(this.mpContato);
+		mpMensagemMovimento.setMensagem(this.mensagem);
+		mpMensagemMovimento.setMpTipoContato(this.mpTipoContato);
+		mpMensagemMovimento.setMpStatusMensagem(MpStatusMensagem.NOVA);
+		
+		this.mpCadastroMensagemMovimentoService.salvar(mpMensagemMovimento);		
 	}
 	
 	// ---

@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <td>Enviado por:</td>
-                <td>$mpContato.nome</td>
+                <td>$mpUsuario.nome</td>
             </tr>
         </table>
     </body>

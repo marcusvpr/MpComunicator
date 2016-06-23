@@ -17,26 +17,31 @@
 
     	<h:form>
 
-	    	<h1>Enviar Mensagem</h1>
+	    	<h2>Enviar Mensagem</h2>
 	    	
 	    	<p:messages autoUpdate="true" closable="true" />
 			<p:panelGrid columns="2" id="painel"
-				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+				style="width:50%; margin-top:10px" columnClasses="rotulo, campo">
 
-	    		<p:outputLabel value="Contato" for="mpContato"/>
 				<p:selectOneMenu id="mpContato"
 					value="#{mpEnviaMensagemBean.mpContato}">
 					<f:selectItem itemLabel="Selecione o Contato" />
 					<f:selectItems value="#{mpEnviaMensagemBean.mpContatoList}"
 						var="mpContato" itemValue="#{mpContato}"
 						itemLabel="#{mpContato.nome}" />
+					<f:ajax execute="@all" render="@all" />
 				</p:selectOneMenu>
 
-	    		<p:outputLabel value="Mensagem" for="mensagem"/>
-				<p:inputTextarea id="mensagem" rows="3" maxlength="150"
-					placeholder="Mensagem" value="#{mpEnviaMensagemBean.mensagem}" />
+				<h:panelGroup>
+	    			<p:graphicImage library="images/pessoas" width="120" height="90"
+	    				rendered="#{mpEnviaMensagemBean.mpContato.imagem == null ? false : true}" 
+	    				name="#{mpEnviaMensagemBean.mpContato.imagem}"/>
+				</h:panelGroup>
+				
+				<p:inputTextarea id="mensagem" rows="3" cols="30" maxlength="150"
+					placeholder="Informar sua Mensagem" value="#{mpEnviaMensagemBean.mensagem}" />
+				<h:panelGroup />
 
-	    		<p:outputLabel value="Tipo" for="mpTipoContato"/>
 				<p:selectOneMenu id="mpTipoContato"
 					value="#{mpEnviaMensagemBean.mpTipoContato}">
 					<f:selectItem itemLabel="Selecione o Tipo" />
@@ -46,10 +51,11 @@
 					<f:ajax execute="@all" render="@all" />
 				</p:selectOneMenu>
 
-	    		<p:outputLabel value="Ação" />
-	    		<p:graphicImage library="images" width="240" height="150"
+				<h:panelGroup>
+	    			<p:graphicImage library="images" width="120" height="90"
 	    				rendered="#{mpEnviaMensagemBean.mpTipoContato.imagem == null ? false : true}" 
 	    				name="#{mpEnviaMensagemBean.mpTipoContato.imagem}"/>
+				</h:panelGroup>
 
 			</p:panelGrid>
 			

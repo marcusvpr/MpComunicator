@@ -1,13 +1,18 @@
 package com.mpxds.mpComunicator.repository.filter;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class MpGrupoFilter implements Serializable {
+public class MpMensagemMovimentoFilter implements Serializable {
 	//
 	private static final long serialVersionUID = 1L;
 
-	private String nome;
-	private String descricao;
+	private Date dataCriacaoDe;
+	private Date dataCriacaoAte;
+	private String usuario;
+	private String contato;
+	private String mensagem;
+	private String tipoContato;
 	private String status;
 
 	private int primeiroRegistro;
@@ -17,11 +22,23 @@ public class MpGrupoFilter implements Serializable {
 	
 	// ---
 	
-	public String getNome() { return nome; }
-	public void setNome(String nome) { this.nome = nome; }
+	public Date getDataCriacaoDe() { return dataCriacaoDe; }
+	public void setDataCriacaoDe(Date dataCriacaoDe) { this.dataCriacaoDe = dataCriacaoDe; }
+	
+	public Date getDataCriacaoAte() { return dataCriacaoAte; }
+	public void setDataCriacaoAte(Date dataCriacaoAte) { this.dataCriacaoAte = dataCriacaoAte; }
+	
+	public String getUsuario() { return usuario; }
+	public void setUsuario(String usuario) { this.usuario = usuario; }
+	
+	public String getContato() { return contato; }
+	public void setContato(String contato) { this.contato = contato; }
 
-	public String getDescricao() { return descricao; }
-	public void setDescricao(String descricao) { this.descricao = descricao; }
+	public String getMensagem() { return mensagem; }
+	public void setMensagem(String mensagem) { this.mensagem = mensagem; }
+	
+	public String getTipoContato() { return tipoContato; }
+	public void setTipoContato(String tipoContato) { this.tipoContato = tipoContato; }
 
 	public String getStatus() {	return status; }
 	public void setStatus(String status) { this.status = status; }
