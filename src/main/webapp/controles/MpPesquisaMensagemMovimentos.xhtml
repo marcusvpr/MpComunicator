@@ -8,7 +8,7 @@
     <ui:define name="titulo">Pesquisa Mensagens Enviadas</ui:define>
     
     <ui:define name="corpo">
-    	<h:form>
+    	<h:form id="frm">
 	    	<h1>Pesquisa Mensagens Enviadas</h1>
 	    	
 	    	<p:toolbar style="margin-top: 20px">
@@ -50,9 +50,12 @@
 	    	<p:dataTable id="mensagemsTable" value="#{mpPesquisaMensagemMovimentosBean.model}"
 	    			var="mpMensagemMovimento" paginatorPosition="bottom" lazy="true"
 		    		rows="20" paginator="true" paginatorAlwaysVisible="false"
-		    		style="margin-top: 20px" emptyMessage="Nenhuma Mensagem encontrada.">
+		    		style="margin-top:20px" emptyMessage="Nenhuma Mensagem encontrada.">
 		    	
-	    		<p:column headerText="Data" style="text-align: center; width: 150px">
+	    		<p:column headerText="Id" style="text-align:center; width:40px;">
+	    			<h:outputText value="#{mpMensagemMovimento.id}"/>
+	    		</p:column>
+	    		<p:column headerText="Data" style="text-align:center; width:130px">
 	    			<h:outputText value="#{mpMensagemMovimento.dataMovimento}">
 	    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" 
 	    														timeZone="America/Sao_Paulo" />
@@ -70,11 +73,49 @@
 	    		<p:column headerText="Tipo">
 	    			<h:outputText value="#{mpMensagemMovimento.mpTipoContato.nome}"/>
 	    		</p:column>
-	    		<p:column headerText="Status" style="width: 100px">
+	    		<p:column headerText="Status" style="width:100px">
 	    			<h:outputText value="#{mpMensagemMovimento.mpStatusMensagem.descricao}"/>
 	    		</p:column>
+	    		<p:column headerText="Dt.Programada" style="text-align:center; width:130px;">
+	    			<h:outputText value="#{mpMensagemMovimento.dataProgramada}">
+	    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" 
+	    														timeZone="America/Sao_Paulo" />
+	    			</h:outputText>
+	    		</p:column>
+	    		<p:column headerText="Cod.Retorno">
+	    			<h:outputText value="#{mpMensagemMovimento.codigoRetorno}"/>
+	    		</p:column>
+	    		<p:column headerText="Resposta">
+	    			<h:outputText value="#{mpMensagemMovimento.respostaUsuario}"/>
+	    		</p:column>
+	    		<p:column headerText="Status.U" style="width:100px;">
+	    			<h:outputText value="#{mpMensagemMovimento.mpStatusMensagemUsuario.descricao}"/>
+	    		</p:column>
+	    		<p:column headerText="Ação" style="text-align:center; width:70px;" exportable="false">
+	    			<p:button icon="ui-icon-check" title="Selecionar"
+	    									 				outcome="/controles/MpEnviaMensagem">
+	    				<f:param name="mpMensagemMovimento" value="#{mpMensagemMovimento.id}" />
+	    			</p:button>
+	    			<p:commandButton icon="ui-icon-trash" title="Excluir"
+	    			 		oncomplete="PF('confirmacaoExclusao').show()"
+	    					process="@this" update=":frm:confirmacaoExclusaoDialog">
+	    				<f:setPropertyActionListener target=
+	    					"#{mpPesquisaMensagemMovimentosBean.mpMensagemMovimentoSelecionado}" 
+	    					value="#{mpMensagemMovimento}" />
+	    			</p:commandButton>
+	    		</p:column>
 	    	</p:dataTable>
-	    	
+
+	    	<p:confirmDialog header="Exclusão da Mensagem" 
+	    		message=
+"Tem certeza que deseja excluir a Mensagem ( #{mpPesquisaMensagemMovimentosBean.mpMensagemMovimentoSelecionado.id} )?"
+	    		widgetVar="confirmacaoExclusao"	id="confirmacaoExclusaoDialog">
+	    		<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	    		<p:commandButton value="Sim" oncomplete="PF('confirmacaoExclusao').hide();"
+	    			action="#{mpPesquisaMensagemMovimentosBean.removerMpMensagemMovimento}"
+	    			process="@this" update=":frm:mensagemsTable" id="yesButton" />
+	    	</p:confirmDialog>
+
     	</h:form>
     </ui:define>
 </ui:composition>

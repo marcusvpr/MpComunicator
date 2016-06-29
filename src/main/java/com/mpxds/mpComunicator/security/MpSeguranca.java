@@ -2,7 +2,6 @@ package com.mpxds.mpComunicator.security;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,9 +30,11 @@ import com.mpxds.mpComunicator.util.jsf.MpFacesUtil;
 @Named
 @ViewScoped //  @RequestScoped
 public class MpSeguranca implements Serializable {
-
+	//
 	private static final long serialVersionUID = 1L;
 
+	private String sistemaVersao = "1.0.5";
+	
 	@Inject
 	private ExternalContext externalContext;
 
@@ -199,7 +200,12 @@ public class MpSeguranca implements Serializable {
 		return externalContext.isUserInRole("ADMINISTRADORES");
 	}
 
-	// ========
+	// ---
+	
+	public String getSistemaVersao() { return sistemaVersao; }
+	public void setSistemaVersao(String sistemaVersao) {
+													this.sistemaVersao = sistemaVersao; }
+	// ---
 	
 	public MpUsuario getMpUsuario() { return mpUsuario; }
 	public void setMpUsuario(MpUsuario mpUsuario) {	this.mpUsuario = mpUsuario; }

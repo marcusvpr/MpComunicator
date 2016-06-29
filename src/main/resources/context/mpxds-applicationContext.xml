@@ -37,6 +37,7 @@
     <http pattern="/MpLogout.xhtml" security="none" />
     <http pattern="/MpErro.xhtml" security="none" />
     <http pattern="/MpAcessoNegado.xhtml" security="none" />
+    <http pattern="/MpAlertaLogMensagem.xhtml" security="none" />
     <http pattern="/javax.faces.resource/**" security="none" />
 
 	<http auto-config="false" use-expressions="true">

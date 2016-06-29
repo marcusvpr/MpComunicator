@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+//import javax.faces.context.ExternalContext;
+//import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,6 +20,7 @@ import com.mpxds.mpComunicator.security.MpSeguranca;
 import com.mpxds.mpComunicator.service.MpCadastroMensagemMovimentoService;
 import com.mpxds.mpComunicator.util.jsf.MpFacesUtil;
 import com.mpxds.mpComunicator.util.mail.MpMailer;
+import com.mpxds.mpComunicator.util.sms.MpUtilSMS;
 import com.outjected.email.api.MailMessage;
 import com.outjected.email.impl.templating.velocity.VelocityTemplate;
 
@@ -36,85 +39,153 @@ public class MpEnviaMensagemBean implements Serializable {
 	@Inject
 	private MpMailer mpMailer;
 	
-	private MpContato mpContato;
-	private List<MpContato> mpContatoList;
+	private MpMensagemMovimento mpMensagemMovimento;	
 	
-	private String mensagem;
-
-	private MpTipoContato mpTipoContato;
+	private List<MpContato> mpContatoList;
 	private List<MpTipoContato> mpTipoContatoList;
+	
+	private Boolean indErroEnvio;
+		
+//	private ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
 	
 	// ------
 	
-	public MpEnviaMensagemBean() {
-		if (null == this.mpContato)
-			limpar();
-		//
-	}
-	
 	public void inicializar() {
-		if (null == this.mpContato)
-			limpar();
+		if (null == this.mpMensagemMovimento)
+			this.mpMensagemMovimento = new MpMensagemMovimento() ;
 		//
 		this.mpContatoList = Arrays.asList(MpContato.values());
 		this.mpTipoContatoList = Arrays.asList(MpTipoContato.values());
 		//
 	}
 	
-	private void limpar() {
-		//
-		this.setMensagem("");		
-	}
-	
 	public void enviar() {
 		//
 		String msg = "";
 		//
-		if (null == this.mpContato) msg = msg + "\n(Informar Contato)";
-		if (null == this.mensagem || this.mensagem.isEmpty()) msg = msg + "\n(Informar Mensagem)";
-		if (null == this.mpTipoContato) msg = msg + "\n(Informar Tipo)";
+		if (null == this.mpMensagemMovimento.getMpContato())
+			msg = msg + "<br>(Informar Contato)";
+		if (null == this.mpMensagemMovimento.getMensagem()
+		||  this.mpMensagemMovimento.getMensagem().isEmpty())
+			msg = msg + "<br>(Informar Mensagem)";
+		if (null == this.mpMensagemMovimento.getMpTipoContato())
+			msg = msg + "<br>(Informar Tipo)";
 		//
 		if (!msg.isEmpty()) {
 			MpFacesUtil.addInfoMessage(msg);
 			return;
 		}		
 		//
-		if (mpTipoContato.equals(MpTipoContato.EMAIL))
-			this.enviarEMAIL();
-		else
-			if (mpTipoContato.equals(MpTipoContato.SMS))
-				this.enviarSMS();
-			else
-				if (mpTipoContato.equals(MpTipoContato.PUSH))
-					this.enviarPUSH();
-				else
-					if (mpTipoContato.equals(MpTipoContato.TELEGRAM))
-						this.enviarTELEGRAM();
-					else
-						if (mpTipoContato.equals(MpTipoContato.ANDROID))
-							this.enviarANDROID();
-		//
 		this.gravaMensagemMovimento();
 		//
-		MpFacesUtil.addInfoMessage("Mensagem ( " + mpTipoContato.getNome() +
-																	" )... enviada com sucesso!");
+		this.indErroEnvio = false;
+		
+		if (this.mpMensagemMovimento.getMpTipoContato().equals(MpTipoContato.EMAIL)) {
+			if (null == this.mpMensagemMovimento.getDataProgramada())
+				assert(true); // nop
+			else
+				this.enviarEMAIL();
+		} else
+			if (this.mpMensagemMovimento.getMpTipoContato().equals(MpTipoContato.SMS))
+				this.enviarSMS();
+			else
+				if (this.mpMensagemMovimento.getMpTipoContato().equals(MpTipoContato.PUSH))
+					this.enviarPUSH();
+				else
+					if (this.mpMensagemMovimento.getMpTipoContato().equals(MpTipoContato.TELEGRAM))
+						this.enviarTELEGRAM();
+					else
+						if (this.mpMensagemMovimento.getMpTipoContato().equals(
+																			MpTipoContato.ANDROID))
+							this.enviarANDROID();
+		//
+		if (this.indErroEnvio == false)
+			MpFacesUtil.addInfoMessage("Mensagem ( " + 
+					this.mpMensagemMovimento.getMpTipoContato().getNome() +
+					" )... enviada com sucesso ! (Id = " + this.mpMensagemMovimento.getId());
+		//
+		this.mpMensagemMovimento = new MpMensagemMovimento();
 	}
 	
 	public void enviarEMAIL() {
-		//
+		//		
 		MailMessage message = mpMailer.novaMensagem();
 		
-		message.to(this.mpContato.getEmail())
-				.subject("MPXDS MpComunicator")
+		String url = "http://localhost:8080/MpComunicator/";
+//		String url = "http://www.mpxds.com/MpComunicator/";
+//		String url = ectx.getRequestScheme() + "://" + ectx.getRequestServerName()
+//		  				+ ":" + ectx.getRequestServerPort()  + ectx.getRequestContextPath();		
+		//
+		try {
+			if (this.mpMensagemMovimento.getIndRespostaUsuario()) {
+				String urlUsuarioResposta = "<a href=" + "\"" + url +
+					"/MpAlertaLogMensagem?idMM=" + this.mpMensagemMovimento.getId() +
+					"\" target=\"_blank\">Clique aqui para confirmar!</a>";
+				//
+				message.to(this.mpMensagemMovimento.getMpContato().getEmail())
+				.subject("MPXDS MpComunicator : " + mpMensagemMovimento.getId())
 				.bodyHtml(new VelocityTemplate(getClass().getResourceAsStream(
-														"/emails/mpComunicator.template")))
-				.put("mpUsuario", this.mpSeguranca.getMpUsuarioLogado().getMpUsuario().getNome())
-				.put("mensagem", this.mensagem)
+													"/emails/mpComunicatorResposta.template")))
+				.put("mpMensagemMovimento", this.mpMensagemMovimento)
+				.put("urlUsuarioResposta", urlUsuarioResposta)
 				.put("locale", new Locale("pt", "BR"))
 				.send();
+			} else
+				message.to(this.mpMensagemMovimento.getMpContato().getEmail())
+				.subject("MPXDS MpComunicator : " + mpMensagemMovimento.getId())
+				.bodyHtml(new VelocityTemplate(getClass().getResourceAsStream(
+													"/emails/mpComunicator.template")))
+				.put("mpMensagemMovimento", this.mpMensagemMovimento)
+				.put("locale", new Locale("pt", "BR"))
+				.send();
+			//
+			this.mpMensagemMovimento.setMpStatusMensagem(MpStatusMensagem.ENVIADA);
+			//
+		} catch(Exception e) {
+			MpFacesUtil.addInfoMessage(
+				"Erro envio do E-mail... Verificar o Anti-Virus/Firewall (ID = " +
+									+ this.mpMensagemMovimento.getId() + " / Exception = " + e);
+			//
+			this.mpMensagemMovimento.setMpStatusMensagem(MpStatusMensagem.ERRO_ENVIO);
+			
+			this.indErroEnvio = true;
+		}
+		//
+		this.mpMensagemMovimento = this.mpCadastroMensagemMovimentoService.
+																		salvar(mpMensagemMovimento);		
+		//
+//		System.out.println("MpEnviaMensagemBean.enviarEMAIL() (From = " + 
+//									this.mpSeguranca.getMpUsuarioLogado().getMpUsuario().getNome());
 	}
 	
 	public void enviarSMS() {
+		//
+		try {
+			String celular = this.mpMensagemMovimento.getMpContato().getCelular();
+			String mensagem = "MPXDS MpComunicator(" + this.mpMensagemMovimento.getId() + ") = " +
+															this.mpMensagemMovimento.getMensagem();
+			//
+			if (this.mpMensagemMovimento.getIndRespostaUsuario())
+				mensagem = mensagem + " ( Responda? : CONFIRMAR ADIAR CANCELAR )";
+			//
+			String codigoRetorno = MpUtilSMS.simple(celular, mensagem);
+			//
+			this.mpMensagemMovimento.setCodigoRetorno(codigoRetorno);
+			
+			this.mpMensagemMovimento.setMpStatusMensagem(MpStatusMensagem.ENVIADA);
+			//
+		} catch(Exception e) {
+			MpFacesUtil.addInfoMessage(
+					"Erro envio do SMS... (ID = " + this.mpMensagemMovimento.getId() + 
+																		" / Exception = " + e);
+			//
+			this.mpMensagemMovimento.setMpStatusMensagem(MpStatusMensagem.ERRO_ENVIO);
+				
+			this.indErroEnvio = true;
+		}
+		//
+		this.mpMensagemMovimento = this.mpCadastroMensagemMovimentoService.
+																	salvar(mpMensagemMovimento);		
 		//
 	}
 	
@@ -132,29 +203,24 @@ public class MpEnviaMensagemBean implements Serializable {
 	
 	public void gravaMensagemMovimento() {
 		//
-		MpMensagemMovimento mpMensagemMovimento = new MpMensagemMovimento();
+		this.mpMensagemMovimento.setMpUsuario(mpSeguranca.getMpUsuarioLogado().getMpUsuario());
+		this.mpMensagemMovimento.setDataMovimento(new Date());
 		
-		mpMensagemMovimento.setMpUsuario(mpSeguranca.getMpUsuarioLogado().getMpUsuario());
-		mpMensagemMovimento.setDataMovimento(new Date());
-		mpMensagemMovimento.setMpContato(this.mpContato);
-		mpMensagemMovimento.setMensagem(this.mensagem);
-		mpMensagemMovimento.setMpTipoContato(this.mpTipoContato);
-		mpMensagemMovimento.setMpStatusMensagem(MpStatusMensagem.NOVA);
-		
-		this.mpCadastroMensagemMovimentoService.salvar(mpMensagemMovimento);		
+		if (null == mpMensagemMovimento.getDataProgramada())
+			this.mpMensagemMovimento.setDataProgramada(new Date());
+		//
+		this.mpMensagemMovimento = this.mpCadastroMensagemMovimentoService.salvar(
+																				mpMensagemMovimento);		
 	}
 	
 	// ---
 	
-	public String getMensagem() { return mensagem; }
-	public void setMensagem(String mensagem) { this.mensagem = mensagem; }
-		
-	public MpContato getMpContato() { return mpContato; }
-	public void setMpContato(MpContato mpContato) {	this.mpContato = mpContato; }
+	public MpMensagemMovimento getMpMensagemMovimento() { return mpMensagemMovimento; }
+	public void setMpMensagemMovimento(MpMensagemMovimento mpMensagemMovimento) { 
+												this.mpMensagemMovimento = mpMensagemMovimento; }
+			
 	public List<MpContato> getMpContatoList() {	return mpContatoList; }
 	
-	public MpTipoContato getMpTipoContato() { return mpTipoContato; }
-	public void setMpTipoContato(MpTipoContato mpTipoContato) {	this.mpTipoContato = mpTipoContato; }
 	public List<MpTipoContato> getMpTipoContatoList() {	return mpTipoContatoList; }
-
+	
 }

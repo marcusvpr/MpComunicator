@@ -2,7 +2,7 @@ package com.mpxds.mpComunicator.model.enums;
 
 public enum MpContato {
 
-	MARCUS(1, "Marcus Rodrigues", "021 9 97435-5450", "marcus_vpr@hotmail.com",
+	MARCUS(1, "Marcus Rodrigues", "21974355450", "marcus_vpr@hotmail.com",
 									"marcus_vpr@hotmail.com", "", "Rio de Janeiro", "marcus.jpg"),
 	ESTEVAO(2, "Estevão Ramos", "031 9 9572-4394", "stevaoramoss@hotmail.com",
 									"estevao ramos", "", "?", "estevao.jpg"),

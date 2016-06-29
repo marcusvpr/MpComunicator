@@ -14,7 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotBlank;
+//import org.hibernate.validator.constraints.NotBlank;
 
 import com.mpxds.mpComunicator.model.enums.MpContato;
 import com.mpxds.mpComunicator.model.enums.MpStatusMensagem;
@@ -31,8 +31,14 @@ public class MpMensagemMovimento extends MpBaseEntity {
 	private MpContato mpContato;
 	private String mensagem;
 	private MpTipoContato mpTipoContato;
-	private MpStatusMensagem mpStatusMensagem;
+	private MpStatusMensagem mpStatusMensagem = MpStatusMensagem.NOVA;
 
+	private Date dataProgramada;
+	private Boolean indRespostaUsuario;
+	private String respostaUsuario;
+	private String codigoRetorno;
+	private MpStatusMensagem mpStatusMensagemUsuario = MpStatusMensagem.NOVA;;
+	
 	// ---
 
 	@OneToOne(fetch = FetchType.EAGER) 
@@ -46,18 +52,15 @@ public class MpMensagemMovimento extends MpBaseEntity {
 	public Date getDataMovimento() { return dataMovimento; }
 	public void setDataMovimento(Date dataMovimento) { this.dataMovimento = dataMovimento; }
 
-	@NotBlank(message = "Por favor, informe a MENSAGEM")
 	@Column(nullable = false)
 	public String getMensagem() { return mensagem; }
 	public void setMensagem(String mensagem) { this.mensagem = mensagem; }
 
-	@NotNull(message = "Por favor, informe o CONTATO")
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	public MpContato getMpContato() { return mpContato; }
 	public void setMpContato(MpContato mpContato) {	this.mpContato = mpContato; }
 	
-	@NotNull(message = "Por favor, informe o TIPO")
 	@Enumerated(EnumType.STRING)
 	@Column(name = "mpTipo_contato", nullable = false)
 	public MpTipoContato getMpTipoContato() { return mpTipoContato; }
@@ -70,4 +73,30 @@ public class MpMensagemMovimento extends MpBaseEntity {
 	public MpStatusMensagem getMpStatusMensagem() { return mpStatusMensagem; }
 	public void setMpStatusMensagem(MpStatusMensagem mpStatusMensagem) {	
 														this.mpStatusMensagem = mpStatusMensagem; }
+
+	@Temporal(TemporalType.TIMESTAMP)
+  	@Column(name = "data_programada", nullable = true)
+	public Date getDataProgramada() { return dataProgramada; }
+	public void setDataProgramada(Date dataProgramada) { this.dataProgramada = dataProgramada; }
+
+  	@Column(name = "ind_resposta_usuario", nullable = true)
+	public Boolean getIndRespostaUsuario() { return indRespostaUsuario; }
+	public void setIndRespostaUsuario(Boolean indRespostaUsuario) {
+													this.indRespostaUsuario = indRespostaUsuario; }
+
+  	@Column(name = "resposta_usuario", nullable = true)
+	public String getRespostaUsuario() { return respostaUsuario; }
+	public void setRespostaUsuario(String respostaUsuario) { this.respostaUsuario = respostaUsuario; }
+
+  	@Column(name = "codigo_retorno", nullable = true)
+	public String getCodigoRetorno() { return codigoRetorno; }
+	public void setCodigoRetorno(String codigoRetorno) { this.codigoRetorno = codigoRetorno; }
+
+	@NotNull(message = "Por favor, informe o STATUS USUÁRIO")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "mpStatus_mensagem_usuario", nullable = false)
+	public MpStatusMensagem getMpStatusMensagemUsuario() { return mpStatusMensagemUsuario; }
+	public void setMpStatusMensagemUsuario(MpStatusMensagem mpStatusMensagemUsuario) {	
+											this.mpStatusMensagemUsuario = mpStatusMensagemUsuario; }
+
 }

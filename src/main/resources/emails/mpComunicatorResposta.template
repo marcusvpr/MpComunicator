@@ -6,6 +6,10 @@
                 <td>MPXDS MpComunicator</td>
             </tr>
             <tr>
+                <td style="width: 100px">Confirmacao:</td>
+                <td>$urlUsuarioResposta</td>
+            </tr>
+            <tr>
                 <td style="width: 100px">Mensagem:</td>
                 <td>$mpMensagemMovimento.mensagem</td>
             </tr>

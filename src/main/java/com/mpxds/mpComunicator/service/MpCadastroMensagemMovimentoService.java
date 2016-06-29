@@ -13,7 +13,7 @@ import com.mpxds.mpComunicator.security.MpSeguranca;
 import com.mpxds.mpComunicator.util.jpa.MpTransactional;
 
 public class MpCadastroMensagemMovimentoService implements Serializable {
-
+	//
 	private static final long serialVersionUID = 1L;
 
 	@Inject

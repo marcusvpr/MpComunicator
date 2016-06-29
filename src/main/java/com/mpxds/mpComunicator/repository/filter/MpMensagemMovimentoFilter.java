@@ -15,6 +15,19 @@ public class MpMensagemMovimentoFilter implements Serializable {
 	private String tipoContato;
 	private String status;
 
+	private Date dataProgramada;
+	private Boolean indRespostaUsuario;
+	
+	private Boolean indDomingo;
+	private Boolean indSegunda;
+	private Boolean indTerca;
+	private Boolean indQuarta;
+	private Boolean indQuinta;
+	private Boolean indSexta;
+	private Boolean indSabado;
+	private Boolean indSemanalmente;
+	private Boolean indAtivo;
+	
 	private int primeiroRegistro;
 	private int quantidadeRegistros;
 	private String propriedadeOrdenacao;
@@ -42,7 +55,44 @@ public class MpMensagemMovimentoFilter implements Serializable {
 
 	public String getStatus() {	return status; }
 	public void setStatus(String status) { this.status = status; }
+	
+	public Date getDataProgramada() { return dataProgramada; }
+	public void setDataProgramada(Date dataProgramada) { this.dataProgramada = dataProgramada; }
+	
+	public Boolean getIndRespostaUsuario() { return indRespostaUsuario; }
+	public void setIndRespostaUsuario(Boolean indRespostaUsuario) { 
+													this.indRespostaUsuario = indRespostaUsuario; }
 
+	// ---
+
+	public Boolean getIndDomingo() { return indDomingo; }
+	public void setIndDomingo(Boolean indDomingo) { this.indDomingo = indDomingo; }
+
+	public Boolean getIndSegunda() { return indSegunda; }
+	public void setIndSegunda(Boolean indSegunda) { this.indSegunda = indSegunda; }
+
+	public Boolean getIndTerca() { return indTerca; }
+	public void setIndTerca(Boolean indTerca) { this.indTerca = indTerca; }
+
+	public Boolean getIndQuarta() { return indQuarta; }
+	public void setIndQuarta(Boolean indQuarta) { this.indQuarta = indQuarta; }
+
+	public Boolean getIndQuinta() { return indQuinta; }
+	public void setIndQuinta(Boolean indQuinta) { this.indQuinta = indQuinta; }
+
+	public Boolean getIndSexta() { return indSexta; }
+	public void setIndSexta(Boolean indSexta) { this.indSexta = indSexta; }
+
+	public Boolean getIndSabado() { return indSabado; }
+	public void setIndSabado(Boolean indSabado) { this.indSabado = indSabado; }
+
+	public Boolean getIndSemanalmente() { return indSemanalmente; }
+	public void setIndSemanalmente(Boolean indSemanalmente) {
+														this.indSemanalmente = indSemanalmente;	}
+
+	public Boolean getIndAtivo() { return indAtivo; }
+	public void setIndAtivo(Boolean indAtivo) { this.indAtivo = indAtivo; }
+	
 	// --------------
 	
 	public int getPrimeiroRegistro() { return primeiroRegistro; }

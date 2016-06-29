@@ -38,6 +38,13 @@
 		<jtelebot.version>0.1.0</jtelebot.version>
 		
     	<gcm-server.version>1.0.2</gcm-server.version>
+
+		<quartz.version>2.2.2</quartz.version>
+		<deltaspike.version>1.6.0</deltaspike.version>
+		<jta.version>1.1</jta.version>
+		<httpclient.version>4.5.2</httpclient.version>
+
+    	<facilitasdk.version>1.0</facilitasdk.version>
         
     </properties>
 
@@ -207,6 +214,67 @@
     		<version>${javax.servlet-api.version}</version>
 	        <scope>provided</scope>
 		</dependency>
+
+		<!-- Quartz scheduler framework -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+	        <version>${quartz.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+	        <version>${quartz.version}</version>
+		</dependency>
+		<!-- Quartz need transaction -->
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+	        <version>${jta.version}</version>
+		</dependency>
+		<dependency>
+  			<groupId>org.apache.httpcomponents</groupId>
+  			<artifactId>httpclient</artifactId>
+	        <version>${httpclient.version}</version>
+		</dependency>
+		
+		<!-- Delta Spike CDI / Quartz  -->
+		<dependency>
+			<groupId>org.apache.deltaspike.core</groupId>
+			<artifactId>deltaspike-core-api</artifactId>
+			<version>${deltaspike.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.deltaspike.core</groupId>
+			<artifactId>deltaspike-core-impl</artifactId>
+			<version>${deltaspike.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.deltaspike.cdictrl</groupId>
+			<artifactId>deltaspike-cdictrl-api</artifactId>
+			<version>${deltaspike.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.deltaspike.cdictrl</groupId>
+			<artifactId>deltaspike-cdictrl-weld</artifactId>
+			<version>${deltaspike.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+   	 		<groupId>org.apache.deltaspike.modules</groupId>
+    		<artifactId>deltaspike-scheduler-module-api</artifactId>
+    		<version>${deltaspike.version}</version>
+    		<scope>compile</scope>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.deltaspike.modules</groupId>
+    		<artifactId>deltaspike-scheduler-module-impl</artifactId>
+    		<version>${deltaspike.version}</version>
+    		<scope>runtime</scope>
+		</dependency>
 		
 		<!-- JSON / GSON  -->
 		<dependency>
@@ -239,6 +307,16 @@
     		<version>${gcm-server.version}</version>
 		    <scope>compile</scope>
 		</dependency>
+
+		<!-- Envio SMS (500=50reais) / www.facilitamovel.com.br -->
+		<dependency>
+	        <groupId>facilitasdk</groupId>
+	        <artifactId>facilitasdk</artifactId>
+	       	<version>1.0</version>
+		    <scope>compile</scope>
+      	</dependency>
+	        <!-- scope>system</scope>
+	        <systemPath>${basedir}\src\lib\facilitasdk.jar</systemPath -->
 		
     </dependencies>
 

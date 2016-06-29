@@ -1,6 +1,7 @@
 package com.mpxds.mpComunicator.repository;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -128,6 +129,24 @@ public class MpMensagemMovimentos implements Serializable {
 			else
 				return null;
 						
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	public MpMensagemMovimento porTelefoneData(String telefone, Date dataMensagem) {
+		//
+		try {
+			//
+			return manager.createQuery(
+					"from MpMensagemMovimento where upper(telefone) = :telefone AND " +
+													" dataMovimento = :dataMensagem",
+					MpMensagemMovimento.class)
+					.setParameter("telefone", telefone.toUpperCase())
+					.setParameter("dataMensagem", dataMensagem)
+					.setMaxResults(1)
+					.getSingleResult();
+			//
 		} catch (NoResultException e) {
 			return null;
 		}

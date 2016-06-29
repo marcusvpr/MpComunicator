@@ -14,11 +14,12 @@ import org.primefaces.model.SortOrder;
 import com.mpxds.mpComunicator.model.MpMensagemMovimento;
 import com.mpxds.mpComunicator.repository.MpMensagemMovimentos;
 import com.mpxds.mpComunicator.repository.filter.MpMensagemMovimentoFilter;
+import com.mpxds.mpComunicator.util.jsf.MpFacesUtil;
 
 @Named
 @ViewScoped
 public class MpPesquisaMensagemMovimentosBean implements Serializable {
-
+	//
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
@@ -64,16 +65,25 @@ public class MpPesquisaMensagemMovimentosBean implements Serializable {
 		System.out.println("MpPesquisaMensagemMovientosBean().pesquisar() - 000 ( " +
 															mpMensagemMovimentosFiltrados.size());
 	}
-		
+
+	public void removerMpMensagemMovimento() {
+		//
+		this.mpMensagemMovimentos.remover(mpMensagemMovimentoSelecionado);
+			
+		MpFacesUtil.addInfoMessage("Mensagem Movimento " + this.mpMensagemMovimentoSelecionado.getId()
+																	+ " excluído com sucesso.");
+	}			
+	
+	// ---
+	
 	public List<MpMensagemMovimento> getMpMensagemMovimentosFiltrados() {
-		return mpMensagemMovimentosFiltrados; 
-	}
+															return mpMensagemMovimentosFiltrados; }
 
 	public MpMensagemMovimentoFilter getFiltro() { return mpFiltro; }
 
 	public LazyDataModel<MpMensagemMovimento> getModel() { return model; }
 	
-	public MpMensagemMovimento getMpNotificacaoSelecionado() { 
+	public MpMensagemMovimento getMpMensagemMovimentoSelecionado() { 
 															return mpMensagemMovimentoSelecionado; }
 	public void setMpMensagemMovimentoSelecionado(MpMensagemMovimento 
 															mpMensagemMovimentoSelecionado) {

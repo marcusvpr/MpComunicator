@@ -11,7 +11,7 @@
 	<ui:define name="corpo">
 
     	<f:metadata>
-    		<o:viewParam name="mpContato" value="#{mpEnviaMensagemBean.mpContato}" /> 
+    		<o:viewParam name="mpMensagemMovimento" value="#{mpEnviaMensagemBean.mpMensagemMovimento}" /> 
     		<f:event listener="#{mpEnviaMensagemBean.inicializar}" type="preRenderView" /> 
     	</f:metadata>
 
@@ -23,8 +23,7 @@
 			<p:panelGrid columns="2" id="painel"
 				style="width:50%; margin-top:10px" columnClasses="rotulo, campo">
 
-				<p:selectOneMenu id="mpContato"
-					value="#{mpEnviaMensagemBean.mpContato}">
+				<p:selectOneMenu value="#{mpEnviaMensagemBean.mpMensagemMovimento.mpContato}">
 					<f:selectItem itemLabel="Selecione o Contato" />
 					<f:selectItems value="#{mpEnviaMensagemBean.mpContatoList}"
 						var="mpContato" itemValue="#{mpContato}"
@@ -34,16 +33,25 @@
 
 				<h:panelGroup>
 	    			<p:graphicImage library="images/pessoas" width="120" height="90"
-	    				rendered="#{mpEnviaMensagemBean.mpContato.imagem == null ? false : true}" 
-	    				name="#{mpEnviaMensagemBean.mpContato.imagem}"/>
+	    				rendered="#{mpEnviaMensagemBean.mpMensagemMovimento.mpContato.imagem == null ? false : true}" 
+	    				name="#{mpEnviaMensagemBean.mpMensagemMovimento.mpContato.imagem}"/>
 				</h:panelGroup>
 				
-				<p:inputTextarea id="mensagem" rows="3" cols="30" maxlength="150"
-					placeholder="Informar sua Mensagem" value="#{mpEnviaMensagemBean.mensagem}" />
+				<p:inputTextarea rows="3" cols="30" maxlength="150"
+						placeholder="Informar sua Mensagem" 
+						value="#{mpEnviaMensagemBean.mpMensagemMovimento.mensagem}" />
 				<h:panelGroup />
 
-				<p:selectOneMenu id="mpTipoContato"
-					value="#{mpEnviaMensagemBean.mpTipoContato}">
+				<p:calendar	style="background-color:black; color:yellow;" showOn="button"
+						pattern="dd/MM/yyyy HH:mm" placeholder="Data Programada"
+						value="#{mpEnviaMensagemBean.mpMensagemMovimento.dataProgramada}" />
+
+				<h:panelGroup>
+        			<h:outputText value="Resposta Usuário: " />
+        			<p:inputSwitch value="#{mpEnviaMensagemBean.mpMensagemMovimento.indRespostaUsuario}" />
+				</h:panelGroup>
+        			
+				<p:selectOneMenu value="#{mpEnviaMensagemBean.mpMensagemMovimento.mpTipoContato}">
 					<f:selectItem itemLabel="Selecione o Tipo" />
 					<f:selectItems value="#{mpEnviaMensagemBean.mpTipoContatoList}"
 						var="mpTipoContato" itemValue="#{mpTipoContato}"
@@ -53,8 +61,8 @@
 
 				<h:panelGroup>
 	    			<p:graphicImage library="images" width="120" height="90"
-	    				rendered="#{mpEnviaMensagemBean.mpTipoContato.imagem == null ? false : true}" 
-	    				name="#{mpEnviaMensagemBean.mpTipoContato.imagem}"/>
+	    				rendered="#{mpEnviaMensagemBean.mpMensagemMovimento.mpTipoContato.imagem == null ? false : true}" 
+	    				name="#{mpEnviaMensagemBean.mpMensagemMovimento.mpTipoContato.imagem}"/>
 				</h:panelGroup>
 
 			</p:panelGrid>
